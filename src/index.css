@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-black text-white font-sans leading-relaxed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair leading-tight;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply py-12 md:py-24;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-all duration-300 ease-custom;
+  }
+
+  .btn-primary {
+    @apply bg-copper text-white hover:bg-copper-light focus:ring-2 focus:ring-copper-light focus:ring-opacity-50;
+  }
+
+  .btn-outline {
+    @apply border border-copper text-copper hover:bg-copper hover:text-white focus:ring-2 focus:ring-copper focus:ring-opacity-50;
+  }
+  
+  .card {
+    @apply relative overflow-hidden rounded-lg bg-glass-light backdrop-blur-sm shadow-lg transition-all duration-300 ease-custom;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:scale-[1.02] hover:bg-glass-light;
+  }
+
+  .parallax-container {
+    @apply relative overflow-hidden;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .glass-effect {
+    @apply bg-glass-light backdrop-blur-sm;
+  }
+  
+  .transition-custom {
+    @apply transition-all duration-300 ease-custom;
+  }
+  
+  .stagger-delay-1 {
+    animation-delay: 0.1s;
+  }
+  
+  .stagger-delay-2 {
+    animation-delay: 0.2s;
+  }
+  
+  .stagger-delay-3 {
+    animation-delay: 0.3s;
+  }
+}
+
+/* Parallax effect */
+.parallax {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Timeline animation */
+.timeline-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Custom card expansion animation */
+.card-expansion {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-expansion:hover {
+  transform: scale(1.05);
+}
+
+.card-expansion:active {
+  transform: scale(0.95);
+}
