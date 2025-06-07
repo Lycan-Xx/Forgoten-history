@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BookMarked, Calendar, X, ExternalLink } from 'lucide-react';
 import { HistoricalEvent } from '../../types';
@@ -8,23 +8,18 @@ import { useBookmark } from '../../hooks/useBookmark';
 interface EventCardProps {
   event: HistoricalEvent;
   index: number;
+  onCardToggle?: (isExpanded: boolean, eventId: string) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, index, onCardToggle }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentExpandedCard, setCurrentExpandedCard] = useState<number | null>(null);
-  const { isBookmarked, toggleBookmark, bookmarkedEvents } = useBookmark();
+  const { isBookmarked, toggleBookmark } = useBookmark();
   const bookmarked = isBookmarked(event.id);
 
-  useEffect(() => {
-    if (currentExpandedCard !== index) {
-      setIsExpanded(false);
-    }
-  }, [currentExpandedCard, index]);
-
   const handleToggleExpand = () => {
-    setCurrentExpandedCard(isExpanded ? null : index);
-    setIsExpanded(!isExpanded);
+    const newExpandedState = !isExpanded;
+    setIsExpanded(newExpandedState);
+    onCardToggle?.(newExpandedState, event.id);
   };
 
   const handleBookmarkToggle = (e: React.MouseEvent) => {
@@ -71,157 +66,228 @@ const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
     }
   };
 
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: (i: number) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: 0.2 + (i * 0.1),
+        duration: 0.4,
+        ease: [0.4, 0, 0.2, 1],
+      }
+    })
+  };
+
   return (
-    <motion.div
-      className={`card ${isExpanded ? 'md:col-span-3 fixed inset-0 z-50 flex items-center justify-center bg-black/50' : ''} cursor-pointer`}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      custom={index}
-      variants={cardVariants}
-      onClick={handleToggleExpand}
-      layout
-    >
-      {isExpanded ? (
-        <div className="p-6 md:p-8 bg-white rounded-lg max-w-4xl w-full">
-          {/* Header with close button */}
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h2 className="font-playfair text-2xl md:text-3xl font-bold text-copper mb-2">{event.title}</h2>
-              <div className="flex items-center text-gray-300 text-sm">
-                <Calendar className="h-4 w-4 mr-1" />
-                <span>{event.period}, {event.year}</span>
+    <>
+      {/* Expanded Card - Fixed Position */}
+      {isExpanded && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            onClick={handleToggleExpand}
+          />
+          
+          {/* Card Content */}
+          <motion.div
+            className="relative bg-brown-dark rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto w-full"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            layout
+          >
+            <div className="p-6 md:p-8">
+              {/* Header with close button */}
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="font-playfair text-2xl md:text-3xl font-bold text-copper mb-2">{event.title}</h2>
+                  <div className="flex items-center text-gray-300 text-sm">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>{event.period}, {event.year}</span>
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={handleBookmarkToggle}
+                    className={`p-2 rounded-full transition-colors ${
+                      bookmarked ? 'text-copper bg-copper/10' : 'text-gray-400 hover:text-copper'
+                    }`}
+                    aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
+                  >
+                    <BookMarked className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsExpanded(false);
+                    }}
+                    className="p-2 rounded-full text-gray-400 hover:text-white transition-colors"
+                    aria-label="Close details"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Expanded content */}
+              <div className="grid md:grid-cols-3 gap-6">
+                {/* Main Image */}
+                <div className="md:col-span-1">
+                  <img
+                    src={event.mainImageUrl}
+                    alt={event.mainImageAlt}
+                    className="w-full h-64 md:h-full object-cover rounded-lg"
+                  />
+                </div>
+
+                {/* Description and bullet points */}
+                <div className="md:col-span-2 space-y-6">
+                  <div>
+                    <h3 className="font-playfair text-xl font-bold text-white mb-3">Story</h3>
+                    <p className="text-gray-200 leading-relaxed whitespace-pre-line">
+                      {event.fullStory || event.description}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-playfair text-xl font-bold text-white mb-3">Key Facts</h3>
+                    <ul className="space-y-2">
+                      {event.bulletPoints.map((point, i) => (
+                        <motion.li
+                          key={i}
+                          className="flex items-start"
+                          variants={bulletVariants}
+                          custom={i}
+                          initial="hidden"
+                          animate="visible"
+                        >
+                          <span className="inline-block h-2 w-2 bg-copper rounded-full mt-2 mr-3"></span>
+                          <span className="text-gray-200">{point}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Story Images */}
+                  {event.storyImages && event.storyImages.length > 0 && (
+                    <div>
+                      <h3 className="font-playfair text-xl font-bold text-white mb-4">Historical Moments</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {event.storyImages.map((image, i) => (
+                          <motion.div
+                            key={i}
+                            className="space-y-2"
+                            variants={imageVariants}
+                            custom={i}
+                            initial="hidden"
+                            animate="visible"
+                          >
+                            <img
+                              src={image.url}
+                              alt={image.alt}
+                              className="w-full h-32 object-cover rounded-lg"
+                              loading="lazy"
+                            />
+                            <p className="text-sm text-gray-300 italic">{image.caption}</p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Sources */}
+                  <motion.div
+                    variants={sourceVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <h3 className="font-playfair text-lg font-bold text-white mb-2">Sources</h3>
+                    <ul className="text-sm text-gray-300 space-y-1">
+                      {event.sources.map((source, i) => (
+                        <li key={i} className="flex items-start">
+                          {source.url ? (
+                            <a
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-copper hover:underline"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {source.text}
+                              <ExternalLink className="h-3 w-3 ml-1" />
+                            </a>
+                          ) : (
+                            <span>{source.text}</span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </div>
               </div>
             </div>
-            <div className="flex space-x-2">
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Collapsed Card */}
+      {!isExpanded && (
+        <motion.div
+          className="card cursor-pointer"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          custom={index}
+          variants={cardVariants}
+          onClick={handleToggleExpand}
+          layout
+        >
+          <div className="h-full p-6 flex flex-col card-hover">
+            <div className="flex justify-between items-start">
+              <h2 className="font-playfair text-xl font-bold text-copper mb-2">{event.title}</h2>
               <button
                 onClick={handleBookmarkToggle}
-                className={`p-2 rounded-full transition-colors ${
+                className={`p-1.5 rounded-full transition-colors ${
                   bookmarked ? 'text-copper bg-copper/10' : 'text-gray-400 hover:text-copper'
                 }`}
                 aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
               >
-                <BookMarked className="h-5 w-5" />
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsExpanded(false);
-                  setCurrentExpandedCard(null);
-                }}
-                className="p-2 rounded-full text-gray-400 hover:text-white transition-colors"
-                aria-label="Close details"
-              >
-                <X className="h-5 w-5" />
+                <BookMarked className="h-4 w-4" />
               </button>
             </div>
-          </div>
-
-          {/* Expanded content */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Image */}
-            <div className="md:col-span-1">
-              <img
-                src={event.imageUrl}
-                alt={event.imageAlt}
-                className="w-full h-64 md:h-full object-cover rounded-lg"
-              />
+            
+            <div className="flex items-center text-gray-300 text-sm mb-3">
+              <Calendar className="h-4 w-4 mr-1" />
+              <span>{event.period}, {event.year}</span>
             </div>
-
-            {/* Description and bullet points */}
-            <div className="md:col-span-2 space-y-6">
-              <p className="text-gray-200 leading-relaxed">
-                {event.description}
-              </p>
-
-              <div>
-                <h3 className="font-playfair text-xl font-bold text-white mb-3">Key Facts</h3>
-                <ul className="space-y-2">
-                  {event.bulletPoints.map((point, i) => (
-                    <motion.li
-                      key={i}
-                      className="flex items-start"
-                      variants={bulletVariants}
-                      custom={i}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                      <span className="inline-block h-2 w-2 bg-copper rounded-full mt-2 mr-3"></span>
-                      <span className="text-gray-200">{point}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Sources */}
-              <motion.div
-                variants={sourceVariants}
-                initial="hidden"
-                animate="visible"
+            
+            <p className="text-gray-200 line-clamp-3 mb-4">
+              {event.description}
+            </p>
+            
+            <div className="mt-auto">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full"
+                onClick={handleToggleExpand}
               >
-                <h3 className="font-playfair text-lg font-bold text-white mb-2">Sources</h3>
-                <ul className="text-sm text-gray-300 space-y-1">
-                  {event.sources.map((source, i) => (
-                    <li key={i} className="flex items-start">
-                      {source.url ? (
-                        <a
-                          href={source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-copper hover:underline"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {source.text}
-                          <ExternalLink className="h-3 w-3 ml-1" />
-                        </a>
-                      ) : (
-                        <span>{source.text}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
+                Read More
+              </Button>
             </div>
           </div>
-        </div>
-      ) : (
-        // Collapsed card
-        <div className="h-full p-6 flex flex-col card-hover">
-          <div className="flex justify-between items-start">
-            <h2 className="font-playfair text-xl font-bold text-copper mb-2">{event.title}</h2>
-            <button
-              onClick={handleBookmarkToggle}
-              className={`p-1.5 rounded-full transition-colors ${
-                bookmarked ? 'text-copper bg-copper/10' : 'text-gray-400 hover:text-copper'
-              }`}
-              aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
-            >
-              <BookMarked className="h-4 w-4" />
-            </button>
-          </div>
-          
-          <div className="flex items-center text-gray-300 text-sm mb-3">
-            <Calendar className="h-4 w-4 mr-1" />
-            <span>{event.period}, {event.year}</span>
-          </div>
-          
-          <p className="text-gray-200 line-clamp-3 mb-4">
-            {event.description}
-          </p>
-          
-          <div className="mt-auto">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="w-full"
-              onClick={handleToggleExpand}
-            >
-              Read More
-            </Button>
-          </div>
-        </div>
+        </motion.div>
       )}
-    </motion.div>
+    </>
   );
 };
 

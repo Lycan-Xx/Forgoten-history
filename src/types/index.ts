@@ -4,11 +4,19 @@ export interface HistoricalEvent {
   period: string;
   year: string;
   description: string;
+  fullStory?: string;
   bulletPoints: string[];
-  imageUrl: string;
-  imageAlt: string;
+  mainImageUrl: string;
+  mainImageAlt: string;
+  storyImages?: StoryImage[];
   sources: Source[];
   category: EventCategory;
+}
+
+export interface StoryImage {
+  url: string;
+  alt: string;
+  caption: string;
 }
 
 export interface Source {
@@ -26,4 +34,11 @@ export type EventCategory =
 
 export interface BookmarkState {
   bookmarked: string[];
+}
+
+export interface BookmarkedStory {
+  id: string;
+  title: string;
+  excerpt: string;
+  image: string;
 }

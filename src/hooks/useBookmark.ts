@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { BookmarkState } from '../types';
+import { BookmarkState, BookmarkedStory } from '../types';
+import { historicalEvents } from '../data/events';
 
 export function useBookmark() {
   const [bookmarks, setBookmarks] = useState<BookmarkState>({ bookmarked: [] });
@@ -48,9 +49,32 @@ export function useBookmark() {
     return bookmarks.bookmarked.includes(id);
   };
 
+  const getBookmarkedStories = (): BookmarkedStory[] => {
+    return bookmarks.bookmarked.map(id => {
+      const event = historicalEvents.find(e => e.id === id);
+      if (!event) return null;
+      
+      return {
+        id: event.id,
+        title: event.title,
+        excerpt: event.description.substring(0, 120) + '...',
+        image: event.mainImageUrl
+      };
+    }).filter(Boolean) as BookmarkedStory[];
+  };
+
+  const removeBookmark = (id: string) => {
+    setBookmarks(prev => ({
+      ...prev,
+      bookmarked: prev.bookmarked.filter(bookmarkId => bookmarkId !== id)
+    }));
+  };
+
   return {
     bookmarks,
     toggleBookmark,
-    isBookmarked
+    isBookmarked,
+    getBookmarkedStories,
+    removeBookmark
   };
 }

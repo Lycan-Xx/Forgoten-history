@@ -7,6 +7,7 @@ import { EventCategory } from '../../types';
 
 const EventsSection: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<EventCategory | 'all'>('all');
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   const categories: { id: EventCategory | 'all'; label: string }[] = [
     { id: 'all', label: 'All Events' },
@@ -21,6 +22,15 @@ const EventsSection: React.FC = () => {
   const filteredEvents = activeFilter === 'all' 
     ? historicalEvents 
     : historicalEvents.filter(event => event.category === activeFilter);
+
+  const handleCardToggle = (isExpanded: boolean, eventId: string) => {
+    if (isExpanded) {
+      // Close any other expanded cards before opening this one
+      setExpandedCard(eventId);
+    } else {
+      setExpandedCard(null);
+    }
+  };
 
   return (
     <section id="events" className="section bg-black">
@@ -46,7 +56,8 @@ const EventsSection: React.FC = () => {
             Explore historical events that time forgot — extraordinary moments that shaped our world but vanished from collective memory.
           </motion.p>
           
-          {/* Filter Categories */}
+          {/* Filter Categories - Temporarily commented out */}
+          {/*
           <div className="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0">
             <Filter className="h-4 w-4 text-copper mr-1" />
             {categories.map((category) => (
@@ -63,6 +74,7 @@ const EventsSection: React.FC = () => {
               </button>
             ))}
           </div>
+          */}
         </div>
         
         {/* Event Cards Grid */}
@@ -72,6 +84,7 @@ const EventsSection: React.FC = () => {
               key={event.id} 
               event={event} 
               index={index}
+              onCardToggle={handleCardToggle}
             />
           ))}
         </div>
