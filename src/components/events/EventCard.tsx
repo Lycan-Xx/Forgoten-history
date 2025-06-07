@@ -9,9 +9,15 @@ interface EventCardProps {
   event: HistoricalEvent;
   index: number;
   onCardToggle?: (isExpanded: boolean, eventId: string) => void;
+  onBookmarkActionReload?: () => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, index, onCardToggle }) => {
+const EventCard: React.FC<EventCardProps> = ({ 
+  event, 
+  index, 
+  onCardToggle, 
+  onBookmarkActionReload 
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { isBookmarked, toggleBookmark } = useBookmark();
   const bookmarked = isBookmarked(event.id);
@@ -24,7 +30,24 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, onCardToggle }) => 
 
   const handleBookmarkToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleBookmark(event.id);
+    
+    try {
+      // Update the bookmark state
+      toggleBookmark(event.id);
+      
+      // Small delay to ensure the bookmark state is saved to localStorage
+      setTimeout(() => {
+        // Call the reload function if provided
+        if (onBookmarkActionReload) {
+          onBookmarkActionReload();
+        }
+      }, 50);
+    } catch (error) {
+      console.error('Failed to toggle bookmark:', error);
+      
+      // Show user-friendly error message
+      alert('Failed to update bookmark. Please try again.');
+    }
   };
 
   // Theme color based on event category

@@ -1,74 +1,68 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BookmarkState, BookmarkedStory } from '../types';
-import { historicalEvents } from '../data/events';
+import { getStories } from '../services/storyService';
 
 export function useBookmark() {
-  const [bookmarks, setBookmarks] = useState<BookmarkState>({ bookmarked: [] });
-
-  // Load bookmarks from localStorage on initial render
-  useEffect(() => {
+  const [bookmarks, setBookmarks] = useState<BookmarkState>(() => {
     const savedBookmarks = localStorage.getItem('bookmarks');
     if (savedBookmarks) {
       try {
-        setBookmarks(JSON.parse(savedBookmarks));
+        return JSON.parse(savedBookmarks);
       } catch (error) {
         console.error('Failed to parse bookmarks:', error);
-        // Reset if data is corrupted
-        localStorage.setItem('bookmarks', JSON.stringify({ bookmarked: [] }));
+        return { bookmarked: [] };
       }
-    } else {
-      // Initialize if not exists
-      localStorage.setItem('bookmarks', JSON.stringify({ bookmarked: [] }));
     }
-  }, []);
+    return { bookmarked: [] };
+  });
 
   // Save bookmarks to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }, [bookmarks]);
 
-  const toggleBookmark = (id: string) => {
+  const toggleBookmark = useCallback((id: string) => {
     setBookmarks(prev => {
       const isBookmarked = prev.bookmarked.includes(id);
-      
-      if (isBookmarked) {
-        return {
-          ...prev,
-          bookmarked: prev.bookmarked.filter(bookmarkId => bookmarkId !== id)
-        };
-      } else {
-        return {
-          ...prev,
-          bookmarked: [...prev.bookmarked, id]
-        };
-      }
-    });
-  };
+      const updatedBookmarks = isBookmarked
+        ? prev.bookmarked.filter(bookmarkId => bookmarkId !== id)
+        : [...prev.bookmarked, id];
 
-  const isBookmarked = (id: string): boolean => {
-    return bookmarks.bookmarked.includes(id);
-  };
-
-  const getBookmarkedStories = (): BookmarkedStory[] => {
-    return bookmarks.bookmarked.map(id => {
-      const event = historicalEvents.find(e => e.id === id);
-      if (!event) return null;
-      
       return {
-        id: event.id,
-        title: event.title,
-        excerpt: event.description.substring(0, 120) + '...',
-        image: event.mainImageUrl
+        ...prev,
+        bookmarked: updatedBookmarks
       };
-    }).filter(Boolean) as BookmarkedStory[];
-  };
+    });
+  }, []);
 
-  const removeBookmark = (id: string) => {
+  const isBookmarked = useCallback((id: string): boolean => {
+    return bookmarks.bookmarked.includes(id);
+  }, [bookmarks.bookmarked]);
+
+  const getBookmarkedStories = useCallback((): BookmarkedStory[] => {
+    const allStories = getStories(); // Get stories from the service instead of direct import
+    
+    return bookmarks.bookmarked
+      .map(id => {
+        const event = allStories.find(e => e.id === id);
+        if (!event) return null;
+        
+        return {
+          id: event.id,
+          title: event.title,
+          excerpt: event.description.substring(0, 120) + '...',
+          image: event.mainImageUrl
+        };
+      })
+      .filter((story): story is BookmarkedStory => story !== null);
+  }, [bookmarks.bookmarked]);
+
+  const removeBookmark = useCallback((id: string) => {
     setBookmarks(prev => ({
       ...prev,
       bookmarked: prev.bookmarked.filter(bookmarkId => bookmarkId !== id)
     }));
-  };
+  }, []);
 
   return {
     bookmarks,

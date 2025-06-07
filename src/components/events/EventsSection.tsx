@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Filter } from 'lucide-react';
-import { historicalEvents } from '../../data/events';
+import { getStories } from '../../services/storyService';
 import EventCard from './EventCard';
-import { EventCategory } from '../../types';
+import { EventCategory, HistoricalEvent } from '../../types';
 
-const EventsSection: React.FC = () => {
+interface EventsSectionProps {
+  onBookmarkActionReload?: () => void;
+}
+
+const EventsSection: React.FC<EventsSectionProps> = ({ onBookmarkActionReload }) => {
   const [activeFilter, setActiveFilter] = useState<EventCategory | 'all'>('all');
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [events, setEvents] = useState<HistoricalEvent[]>([]);
+
+  // Load events from the story service
+  useEffect(() => {
+    const loadedEvents = getStories();
+    setEvents(loadedEvents);
+  }, []);
 
   const categories: { id: EventCategory | 'all'; label: string }[] = [
     { id: 'all', label: 'All Events' },
@@ -20,8 +31,8 @@ const EventsSection: React.FC = () => {
   ];
 
   const filteredEvents = activeFilter === 'all' 
-    ? historicalEvents 
-    : historicalEvents.filter(event => event.category === activeFilter);
+    ? events 
+    : events.filter(event => event.category === activeFilter);
 
   const handleCardToggle = (isExpanded: boolean, eventId: string) => {
     if (isExpanded) {
@@ -85,6 +96,7 @@ const EventsSection: React.FC = () => {
               event={event} 
               index={index}
               onCardToggle={handleCardToggle}
+              onBookmarkActionReload={onBookmarkActionReload}
             />
           ))}
         </div>

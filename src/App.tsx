@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Hero from './components/home/Hero';
@@ -9,10 +9,17 @@ import FloatingActionButton from './components/ui/FloatingActionButton';
 import SocialShareToolbar from './components/ui/SocialShareToolbar';
 import BookmarkDrawer from './components/ui/BookmarkDrawer';
 import { useBookmark } from './hooks/useBookmark';
+import { BookmarkedStory } from './types';
 
 function App() {
   const [isBookmarkDrawerOpen, setIsBookmarkDrawerOpen] = useState(false);
-  const { getBookmarkedStories, removeBookmark } = useBookmark();
+  const [bookmarkedStories, setBookmarkedStories] = useState<BookmarkedStory[]>([]);
+  const { getBookmarkedStories, removeBookmark, bookmarks } = useBookmark();
+
+  // Update bookmarked stories whenever bookmarks change
+  useEffect(() => {
+    setBookmarkedStories(getBookmarkedStories());
+  }, [bookmarks, getBookmarkedStories]);
 
   // Preload critical images
   useEffect(() => {
@@ -30,12 +37,31 @@ function App() {
     });
   }, []);
 
-  const handleBookmarkDrawerToggle = () => {
-    setIsBookmarkDrawerOpen(!isBookmarkDrawerOpen);
-  };
+  // App reload function with confirmation dialog
+  const reloadApp = useCallback(() => {
+    const confirmReload = window.confirm(
+      'This will refresh the page to update the bookmark status. Any unsaved changes will be lost. Do you want to continue?'
+    );
+    
+    if (confirmReload) {
+      try {
+        // Small delay to ensure any pending state updates are completed
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      } catch (error) {
+        console.error('Failed to reload the application:', error);
+        // Fallback: try alternative reload method
+        window.location.href = window.location.href;
+      }
+    }
+  }, []);
 
-  const handleStoryClick = (storyId: string) => {
-    // Close the drawer
+  const handleBookmarkClick = useCallback(() => {
+    setIsBookmarkDrawerOpen(true);
+  }, []);
+
+  const handleStoryClick = useCallback(() => {
     setIsBookmarkDrawerOpen(false);
     
     // Scroll to the events section
@@ -43,9 +69,11 @@ function App() {
     if (eventsSection) {
       eventsSection.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, []);
 
-  const bookmarkedStories = getBookmarkedStories();
+  const handleRemoveBookmark = useCallback((id: string) => {
+    removeBookmark(id);
+  }, [removeBookmark]);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -53,14 +81,16 @@ function App() {
       
       <main>
         <Hero />
-        <EventsSection />
+        <EventsSection onBookmarkActionReload={reloadApp} />
         <AboutSection />
         <NewsletterSection />
       </main>
       
       <Footer />
       
-      <FloatingActionButton onBookmarkClick={handleBookmarkDrawerToggle} />
+      <FloatingActionButton 
+        onBookmarkClick={handleBookmarkClick}
+      />
       <SocialShareToolbar title="Forgotten History - Rediscover the Past" />
       
       <BookmarkDrawer
@@ -68,7 +98,7 @@ function App() {
         onClose={() => setIsBookmarkDrawerOpen(false)}
         bookmarkedStories={bookmarkedStories}
         onStoryClick={handleStoryClick}
-        onRemoveBookmark={removeBookmark}
+        onRemoveBookmark={handleRemoveBookmark}
       />
     </div>
   );
