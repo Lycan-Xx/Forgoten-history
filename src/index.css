@@ -38,7 +38,7 @@
   }
   
   .card {
-    @apply relative overflow-hidden rounded-lg bg-glass-light backdrop-blur-sm shadow-lg transition-all duration-300 ease-custom;
+    @apply relative overflow-hidden rounded-lg bg-glass-light backdrop-blur-sm shadow-lg transition-all duration-500 ease-custom;
   }
 
   .card-hover {
@@ -75,7 +75,7 @@
   }
   
   .transition-custom {
-    @apply transition-all duration-300 ease-custom;
+    @apply transition-all duration-500 ease-in-out;
   }
   
   .stagger-delay-1 {
@@ -108,6 +108,15 @@
   .contain-paint {
     contain: paint;
   }
+  
+  /* Shadow utilities for images */
+  .image-shadow {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .image-shadow-copper {
+    box-shadow: 0 4px 15px rgba(187, 107, 0, 0.4);
+  }
 }
 
 /* Parallax effect */
@@ -125,7 +134,7 @@
 .timeline-path {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
-  animation: dash 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: dash 3s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 }
 
 @keyframes dash {
@@ -134,9 +143,9 @@
   }
 }
 
-/* Custom card expansion animation */
+/* Custom card expansion animation - smoother version */
 .card-expansion {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .card-expansion:hover {
@@ -144,7 +153,17 @@
 }
 
 .card-expansion:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
+}
+
+/* Image hover animations */
+.image-hover {
+  transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
+  overflow: hidden;
+}
+
+.image-hover:hover img {
+  transform: scale(1.05);
 }
 
 /* Responsive design optimizations */
@@ -205,7 +224,7 @@ a:focus-visible {
 /* Image lazy loading optimization */
 img[loading="lazy"] {
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.4s;
 }
 
 img[loading="lazy"].loaded {
