@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-black text-white font-sans leading-relaxed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair leading-tight;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply py-12 md:py-24;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-all duration-300 ease-custom;
+  }
+
+  .btn-primary {
+    @apply bg-copper text-white hover:bg-copper-light focus:ring-2 focus:ring-copper-light focus:ring-opacity-50;
+  }
+
+  .btn-outline {
+    @apply border border-copper text-copper hover:bg-copper hover:text-white focus:ring-2 focus:ring-copper focus:ring-opacity-50;
+  }
+  
+  .card {
+    @apply relative overflow-hidden rounded-lg bg-glass-light backdrop-blur-sm shadow-lg transition-all duration-500 ease-custom;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:scale-[1.02] hover:bg-glass-light;
+  }
+
+  .parallax-container {
+    @apply relative overflow-hidden;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .glass-effect {
+    @apply bg-glass-light backdrop-blur-sm;
+  }
+  
+  .transition-custom {
+    @apply transition-all duration-500 ease-in-out;
+  }
+  
+  .stagger-delay-1 {
+    animation-delay: 0.1s;
+  }
+  
+  .stagger-delay-2 {
+    animation-delay: 0.2s;
+  }
+  
+  .stagger-delay-3 {
+    animation-delay: 0.3s;
+  }
+
+  /* Touch-friendly tap targets */
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .contain-layout {
+    contain: layout;
+  }
+
+  .contain-paint {
+    contain: paint;
+  }
+  
+  /* Shadow utilities for images */
+  .image-shadow {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .image-shadow-copper {
+    box-shadow: 0 4px 15px rgba(187, 107, 0, 0.4);
+  }
+}
+
+/* Parallax effect */
+.parallax {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Timeline animation */
+.timeline-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 3s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Custom card expansion animation - smoother version */
+.card-expansion {
+  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.card-expansion:hover {
+  transform: scale(1.05);
+}
+
+.card-expansion:active {
+  transform: scale(0.98);
+}
+
+/* Image hover animations */
+.image-hover {
+  transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
+  overflow: hidden;
+}
+
+.image-hover:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive design optimizations */
+@media (max-width: 768px) {
+  .container-custom {
+    @apply px-4;
+  }
+  
+  .section {
+    @apply py-8;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container-custom {
+    @apply px-6;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    @apply px-8;
+  }
+}
+
+/* Smooth scrolling for better UX */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Dark mode optimizations (already dark theme) */
+@media (prefers-color-scheme: dark) {
+  /* Additional dark mode specific styles if needed */
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #BB6B00;
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Image lazy loading optimization */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
