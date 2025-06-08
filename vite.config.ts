@@ -3,9 +3,10 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/Forgoten-history/',  // Add this line - must match your repository name
   plugins: [react()],
-  optimizeDeps: {
-    // Remove the exclusion of lucide-react
-    // exclude: ['lucide-react'],
-  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  }
 });

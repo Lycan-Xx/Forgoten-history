@@ -238,7 +238,6 @@ const EventCard: React.FC<EventCardProps> = ({
                 {/* Story with embedded images */}
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-playfair text-2xl font-bold text-white mb-4">The Story</h3>
                     {renderStoryWithImages()}
                   </div>
 
