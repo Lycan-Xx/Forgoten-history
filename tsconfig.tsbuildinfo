@@ -1,1 +1,0 @@
-{"root":["./src/app.vue","./src/main.ts","./src/vite-env.d.ts","./src/components/cardgrid.vue","./src/components/expandedcard.vue","./src/components/helloworld.vue","./src/components/heroheader.vue","./src/components/sitefooter.vue","./src/components/forgotten-infographics.tsx","./src/router/index.ts","./src/views/demo.vue","./src/views/home.vue"],"errors":true,"version":"5.6.2"}

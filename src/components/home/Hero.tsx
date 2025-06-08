@@ -58,14 +58,7 @@ const Hero: React.FC = () => {
           Explore Events
         </Button>
         
-        {/* Scroll Indicator */}
-        <div 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
-          onClick={scrollToEvents}
-          aria-hidden="true"
-        >
-          <ArrowDown className="h-8 w-8 text-copper" />
-        </div>
+
       </div>
     </section>
   );
