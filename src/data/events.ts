@@ -7,33 +7,33 @@ export const historicalEvents: HistoricalEvent[] = [
     period: 'Industrial Revolution',
     year: '1804-1830',
     description: 'In the early 1800s, Britain\'s mining hills echoed with the clang of steam. Richard Trevithick built the first full-scale working railway locomotive in 1804, but it was George Stephenson who transformed this revolutionary concept into a practical transportation system that changed the world forever.',
-    fullStory: `In the crisp morning of February 21, 1804, history was about to be made in the Welsh valleys of Penydarren. Richard Trevithick—a brilliant and audacious Cornish engineer—was about to demonstrate something the world had never seen: a steam-powered locomotive capable of hauling both cargo and passengers along iron rails.
+    fullStory: `In the crisp morning of February 21, 1804, history was about to be made in the Welsh valleys of Penydarren. Richard Trevithick—a brilliant and audacious Cornish engineer was about to demonstrate something the world had never seen: a steam powered locomotive capable of hauling both cargo and passengers along iron rails.
 
 The Revolutionary Moment
 
-Trevithick's "Penydarren Engine" wasn't just an experiment—it was a wager. On that historic day, his locomotive successfully carried 10 tons of iron, five wagons, and 70 men the full 9-mile distance in 4 hours and 5 minutes, at an average speed of approximately 2.4 mph. The crowd that gathered to witness this spectacle had no idea they were watching the birth of the railway age.
+Trevithick's "Penydarren Engine" wasn't just an experiment—it was a wager. On that historic day, his locomotive successfully carried 10 tons of iron, five wagons, and 70 men the full 9 mile distance in 4 hours and 5 minutes, at an average speed of approximately 2.4 mph. The crowd that gathered to witness this spectacle had no idea they were watching the birth of the railway age.
 
 But Trevithick's triumph came with challenges. His locomotive was heavy, crude, and frequently broke the brittle cast-iron tracks beneath it. While he had proven the concept could work, the technology needed refinement to become commercially viable.
 
 Enter the Master Integrator
 
-Two decades later, George Stephenson—a practical tinkerer working in Northumberland's coal mines—took Trevithick's revolutionary idea and transformed it into something extraordinary. Rather than inventing from scratch, Stephenson was a master integrator who understood that success lay in perfecting every component of the system.
+Two decades later, George Stephenson a practical tinkerer working in Northumberland's coal mines—took Trevithick's revolutionary idea and transformed it into something extraordinary. Rather than inventing from scratch, Stephenson was a master integrator who understood that success lay in perfecting every component of the system.
 
 Stephenson's genius wasn't in a single invention, but in his systematic approach:
 
-• Better Rails: He designed wrought-iron rails that wouldn't shatter under the weight of locomotives, solving Trevithick's biggest challenge
+• Better Rails: He designed wrought iron rails that wouldn't shatter under the weight of locomotives, solving Trevithick's biggest challenge
 • Standardized Gauge: He established the 4 ft 8 ½ inch track width (the "Stephenson gauge"), creating consistency across the growing railway network
 • Improved Locomotives: His engines featured more reliable boilers, better steam pressure management, and flanged wheels for superior traction
 
 The Proving Ground
 
-In 1825, Stephenson's masterpiece "Locomotion No. 1" made its debut on the Stockton & Darlington Railway—the world's first publicly-funded steam railway line designed for both freight and passengers. This wasn't just another test; it was the beginning of the railway revolution.
+In 1825, Stephenson's masterpiece "Locomotion No. 1" made its debut on the Stockton & Darlington Railway, the world's first publicly funded steam railway line designed for both freight and passengers. This wasn't just another test; it was the beginning of the railway revolution.
 
-Five years later, at the famous Rainhill Trials of 1829, Stephenson and his son Robert unveiled "The Rocket." This locomotive didn't just win the competition—it proved that a well-integrated system of engine, track, and mechanical components could transform transportation forever.
+Five years later, at the famous Rainhill Trials of 1829, Stephenson and his son Robert unveiled "The Rocket." This locomotive didn't just win the competition—it proved that a well integrated system of engine, track, and mechanical components could transform transportation forever.
 
 The Legacy
 
-Because Stephenson combined all these elements into a working, reproducible, and commercially successful system—rather than creating brilliant one-off experiments—Victorians rightfully called him the "Father of Railways." His real achievement was understanding that revolutionary technology requires not just innovation, but integration, standardization, and systematic thinking.
+Because Stephenson combined all these elements into a working, reproducible, and commercially successful system rather than creating brilliant one off experiments Victorians rightfully called him the "Father of Railways." His real achievement was understanding that revolutionary technology requires not just innovation, but integration, standardization, and systematic thinking.
 
 Today, billions of people travel on railways that still use Stephenson's gauge, a testament to the power of thoughtful engineering and the vision of a man who saw beyond individual inventions to entire systems.`,
     bulletPoints: [
@@ -96,9 +96,9 @@ Today, billions of people travel on railways that still use Stephenson's gauge, 
 
 The Engineering Breakthrough
 
-In 1763, while repairing a model Newcomen engine at the University of Glasgow, Watt made a crucial observation: most of the steam's energy was being wasted cooling and reheating the cylinder with each stroke. His solution was elegant yet revolutionary—a separate condenser that allowed the main cylinder to remain hot while steam was condensed elsewhere.
+In 1763, while repairing a model Newcomen engine at the University of Glasgow, Watt made a crucial observation: most of the steam's energy was being wasted cooling and reheating the cylinder with each stroke. His solution was elegant yet revolutionary, a separate condenser that allowed the main cylinder to remain hot while steam was condensed elsewhere.
 
-Watt patented this groundbreaking device in 1769, and by 1776, he and his business partner Matthew Boulton had installed the first commercial steam engines with separate condensers. These modified engines didn't just reduce waste—they cut fuel costs dramatically and delivered unprecedented power.
+Watt patented this groundbreaking device in 1769, and by 1776, he and his business partner Matthew Boulton had installed the first commercial steam engines with separate condensers. These modified engines didn't just reduce waste they cut fuel costs dramatically and delivered unprecedented power.
 
 The Marketing Genius
 
@@ -108,7 +108,7 @@ Watt's solution was pure marketing genius. He spent days at mines, carefully obs
 
 The Birth of "Horsepower"
 
-Watt established one unit of horsepower to be equivalent to 33,000 pounds lifted one foot per minute (which equals 550 foot-pounds per second). This wasn't just a measurement—it was a translation device that made the abstract concept of mechanical power instantly comprehensible.
+Watt established one unit of horsepower to be equivalent to 33,000 pounds lifted one foot per minute (which equals 550 foot pounds per second). This wasn't just a measurement—it was a translation device that made the abstract concept of mechanical power instantly comprehensible.
 
 Instead of using bewildering technical jargon, Watt could now tell potential customers something that immediately made sense: "This engine has the power of 20 horses!" Suddenly, mine operators could visualize exactly how many horses a single steam engine could replace, making the cost-benefit calculation crystal clear.
 
@@ -171,7 +171,7 @@ Watt's true genius wasn't just in engineering—it was in understanding that rev
     title: 'How a Church Outing Created the World\'s First Travel Agency',
     period: 'Victorian Era',
     year: '1841',
-    description: 'Thomas Cook, a 32-year-old Baptist preacher frustrated by poor meeting attendance, organized a simple church outing by train. This seemingly modest event laid the foundation for modern package tourism and revolutionized how ordinary people could experience travel.',
+    description: 'Thomas Cook, a 32 year old Baptist preacher frustrated by poor meeting attendance, organized a simple church outing by train. This seemingly modest event laid the foundation for modern package tourism and revolutionized how ordinary people could experience travel.',
     fullStory: `The summer of 1841 was particularly warm in Leicester, and Thomas Cook was facing a problem that would have frustrated any dedicated preacher: dwindling attendance at his temperance meetings. As a passionate Baptist minister and anti-alcohol advocate, Cook was determined to spread his message, but getting people to his meetings was proving increasingly difficult.
 
 The Inspirational Walk
@@ -180,7 +180,7 @@ One sweltering July morning, as Cook walked the dusty 15-mile route from Market 
 
 The Revolutionary Idea
 
-Cook's concept was beautifully simple yet unprecedented: charter an entire train to transport his church members to a gathering, making the journey itself part of the spiritual experience. He approached the Midland Counties Railway with a proposal that must have seemed quite unusual—organize group travel for ordinary working people who had never been on a train.
+Cook's concept was beautifully simple yet unprecedented: charter an entire train to transport his church members to a gathering, making the journey itself part of the spiritual experience. He approached the Midland Counties Railway with a proposal that must have seemed quite unusual organize group travel for ordinary working people who had never been on a train.
 
 The Historic First Journey
 
@@ -212,7 +212,7 @@ His legacy reminds us that sometimes the most revolutionary changes come from th
     bulletPoints: [
       'Thomas Cook organized the world\'s first group travel excursion on July 5, 1841, for 540 church members',
       'Chartered a train from Leicester to Loughborough for one shilling per person, including meal and transportation',
-      'Pioneered the concept of package tourism with all-inclusive travel arrangements',
+      'Pioneered the concept of package tourism with all inclusive travel arrangements',
       'Expanded to organize religious tours to cathedrals, seaside holidays, and international trips across Europe',
       'Founded "Thomas Cook & Son" - the world\'s first travel agency providing complete travel services',
       'Democratized travel by making it accessible and affordable for working-class families, not just the wealthy'
