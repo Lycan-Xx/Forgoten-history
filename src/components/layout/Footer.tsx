@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <p className="text-sm text-gray-300">
-              Contact us: <a href="mailto:info@forgottenhistory.com" className="text-copper hover:underline">info@forgottenhistory.com</a>
+              Contact us: <a href="mailto:mossaic_mw@yahoo.com" className="text-copper hover:underline">info@forgottenhistory.com</a>
             </p>
           </div>
         </div>
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
             &copy; {currentYear} Forgotten History. All rights reserved.
           </p>
           <p className="text-sm text-gray-400 mt-2 md:mt-0 flex items-center">
-            Made with <Heart className="h-4 w-4 text-copper mx-1" /> for history enthusiasts
+            Made with <Heart className="h-4 w-4 text-copper mx-1" /> for history enthusiasts by - <a href='https://github.com/Lycan-Xx'  className='text-copper hover:underline'>Lycan_Xx</a>
           </p>
         </div>
       </div>

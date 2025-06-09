@@ -44,7 +44,7 @@ Today, billions of people travel on railways that still use Stephenson's gauge, 
       'Stephenson\'s "Locomotion No. 1" (1825) operated on the world\'s first public steam railway for passengers and freight',
       'The famous "Rocket" (1829) dominated the Rainhill Trials, proving the viability of integrated railway systems'
     ],
-    mainImageUrl: 'https://images.pexels.com/photos/258045/pexels-photo-258045.jpeg',
+    mainImageUrl: 'https://cdn2.picryl.com/photo/1816/12/31/richard-trevithick-portrait-5c24a0-1024.jpg',
     mainImageAlt: 'Historic steam locomotive on railway tracks representing the dawn of the railway age',
     storyImages: [
       {
